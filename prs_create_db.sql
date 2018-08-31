@@ -9,14 +9,14 @@ CREATE TABLE user (
 	Password				VARCHAR(10)					 NOT NULL,
 	FirstName				VARCHAR(20)					 NOT NULL,
 	LastName				VARCHAR(20)					 NOT NULL,
-	Phone					VARCHAR(12)					 NOT NULL,
+	PhoneNumber				VARCHAR(12)					 NOT NULL,
 	Email					VARCHAR(75)					 NOT NULL,
 	IsReviewer				TinyInt(1)					 NOT NULL,
 	IsAdmin					TinyInt(1)					 NOT NULL,
-	IsActive				TinyInt(1)					 NOT NULL,
-	DateCreated				DATETIME					 NOT NULL,
-	DateUpdated				DATETIME					 NOT NULL,
-	UpdatedByUser			INT 						 NOT NULL
+	IsActive				TinyInt(1)					 NOT NULL DEFAULT 1,
+	DateCreated				DATETIME					 NOT NULL DEFAULT current_timestamp,
+	DateUpdated				DATETIME					 NOT NULL DEFAULT current_timestamp on update current_timestamp,
+	UpdatedByUser			INT 						 NOT NULL DEFAULT 1
 );
 
 CREATE TABLE vendor (
@@ -27,13 +27,13 @@ CREATE TABLE vendor (
 	City					VARCHAR(255)				 NOT NULL,
 	State					VARCHAR(2)					 NOT NULL,
 	Zip						VARCHAR(5)					 NOT NULL,
-	Phone					VARCHAR(12)					 NOT NULL,
+	PhoneNumber				VARCHAR(12)					 NOT NULL,
 	Email					VARCHAR(100)				 NOT NULL,
 	IsPreApproved			TinyInt(1)					 NOT NULL,
-	IsActive				TinyInt(1)					 NOT NULL,
-	DateCreated				DATETIME					 NOT NULL,
-	DateUpdated				DATETIME					 NOT NULL,
-	UpdatedByUser			INT					 		 NOT NULL
+	IsActive				TinyInt(1)					 NOT NULL DEFAULT 1,
+	DateCreated				DATETIME					 NOT NULL DEFAULT current_timestamp,
+	DateUpdated				DATETIME					 NOT NULL DEFAULT current_timestamp on update current_timestamp,
+	UpdatedByUser			INT					 		 NOT NULL DEFAULT 1
 );
 
 CREATE TABLE product (
@@ -44,10 +44,10 @@ CREATE TABLE product (
 	Price					DECIMAL(10,2)				 NOT NULL,
 	Unit					VARCHAR(255) 				 ,
 	PhotoPath				VARCHAR(255) 				 ,
-	IsActive				TinyInt(1)					 NOT NULL,
-	DateCreated				DATETIME					 NOT NULL,
-	DateUpdated				DATETIME					 NOT NULL,
-	UpdatedByUser			INT					 		 NOT NULL,
+	IsActive				TinyInt(1)					 NOT NULL DEFAULT 1,
+	DateCreated				DATETIME					 NOT NULL DEFAULT current_timestamp,
+	DateUpdated				DATETIME					 NOT NULL DEFAULT current_timestamp on update current_timestamp,
+	UpdatedByUser			INT 						 NOT NULL DEFAULT 1,
 	UNIQUE KEY `vendor_part` (`VendorID`,`PartNumber`),
 	FOREIGN KEY (VendorID) REFERENCES vendor(ID)
 );
@@ -62,11 +62,11 @@ CREATE TABLE purchaseRequest (
 	Status					VARCHAR(20)					 NOT NULL,
 	Total					DECIMAL(10,2)				 NOT NULL,
 	SubmittedDate			DATETIME 					 ,
-	IsActive				TinyInt(1)					 NOT NULL,
 	ReasonForRejection		VARCHAR(100)				 NOT NULL,
-	DateCreated				DATETIME					 NOT NULL,
-	DateUpdated				DATETIME					 NOT NULL,
-	UpdatedByUser			INT					 		 NOT NULL,
+	IsActive				TinyInt(1)					 NOT NULL DEFAULT 1,	
+	DateCreated				DATETIME					 NOT NULL DEFAULT current_timestamp,
+	DateUpdated				DATETIME					 NOT NULL DEFAULT current_timestamp on update current_timestamp,
+	UpdatedByUser			INT 						 NOT NULL DEFAULT 1,
 	FOREIGN KEY (UserID) REFERENCES user(ID)
 );
 
@@ -75,20 +75,13 @@ CREATE TABLE purchaseRequestLineItem (
 	PurchaseRequestID		INT						    NOT NULL,
 	ProductID				INT					 		NOT NULL,
 	Quantity				INT							NOT NULL,
-	IsActive				TinyInt(1)				 	NOT NULL,
-	DateCreated				DATETIME					NOT NULL,
-	DateUpdated				DATETIME					NOT NULL,
-	UpdatedByUser			INT					 		NOT NULL,
+	IsActive				TinyInt(1)			 		NOT NULL DEFAULT 1,
+	DateCreated				DATETIME					NOT NULL DEFAULT current_timestamp,
+	DateUpdated				DATETIME				 	NOT NULL DEFAULT current_timestamp on update current_timestamp,
+	UpdatedByUser			INT 					 	NOT NULL DEFAULT 1,
 	UNIQUE KEY `req_pdt` (`PurchaseRequestID`,`ProductID`),
-	FOREIGN KEY (PurchaseRequestID) REFERENCES purchaseRequest(ID)
+	FOREIGN KEY (PurchaseRequestID) REFERENCES purchaseRequest(ID),
+	FOREIGN KEY (ProductID)	REFERENCES Product(ID)
 );
 
 
-INSERT INTO User VALUES
-(1,'SampleUser', '1234', 'Sample', 'User', '234-234-5322','Sampleuser@gmail.com', 1, 1, 1, NOW(), NOW(),0);
-
-INSERT INTO Vendor VALUES
-(1,'BB-01', 'Amazon', '401 Vendor St.', 'Seattle', 'WA','45252','234-234-2344','Bezos@amazon.com', 1, 1, NOW(), NOW(), 1);
-
-INSERT INTO Product VALUES
-(1, 1,'3235','Tape', 5.50, NULL, NULL, 1, NOW(), NOW(), 1)
