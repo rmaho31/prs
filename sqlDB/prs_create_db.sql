@@ -10,7 +10,7 @@ CREATE TABLE user (
 	FirstName				VARCHAR(20)					 NOT NULL,
 	LastName				VARCHAR(20)					 NOT NULL,
 	PhoneNumber				VARCHAR(12)					 NOT NULL,
-	Email					VARCHAR(75)					 NOT NULL,
+	Email					VARCHAR(75)					 NOT NULL	  UNIQUE,
 	IsReviewer				TinyInt(1)					 NOT NULL,
 	IsAdmin					TinyInt(1)					 NOT NULL,
 	IsActive				TinyInt(1)					 NOT NULL DEFAULT 1,
@@ -28,7 +28,7 @@ CREATE TABLE vendor (
 	State					VARCHAR(2)					 NOT NULL,
 	Zip						VARCHAR(5)					 NOT NULL,
 	PhoneNumber				VARCHAR(12)					 NOT NULL,
-	Email					VARCHAR(100)				 NOT NULL,
+	Email					VARCHAR(100)				 NOT NULL	  UNIQUE,
 	IsPreApproved			TinyInt(1)					 NOT NULL,
 	IsActive				TinyInt(1)					 NOT NULL DEFAULT 1,
 	DateCreated				DATETIME					 NOT NULL DEFAULT current_timestamp,
@@ -48,7 +48,7 @@ CREATE TABLE product (
 	DateCreated				DATETIME					 NOT NULL DEFAULT current_timestamp,
 	DateUpdated				DATETIME					 NOT NULL DEFAULT current_timestamp on update current_timestamp,
 	UpdatedByUser			INT 						 NOT NULL DEFAULT 1,
-	UNIQUE KEY `vendor_part` (`VendorID`,`PartNumber`),
+	UNIQUE KEY vendor_part (VendorID,PartNumber),
 	FOREIGN KEY (VendorID) REFERENCES vendor(ID)
 );
 
@@ -79,7 +79,7 @@ CREATE TABLE purchaseRequestLineItem (
 	DateCreated				DATETIME					NOT NULL DEFAULT current_timestamp,
 	DateUpdated				DATETIME				 	NOT NULL DEFAULT current_timestamp on update current_timestamp,
 	UpdatedByUser			INT 					 	NOT NULL DEFAULT 1,
-	UNIQUE KEY `req_pdt` (`PurchaseRequestID`,`ProductID`),
+	UNIQUE KEY req_pdt (PurchaseRequestID,ProductID),
 	FOREIGN KEY (PurchaseRequestID) REFERENCES purchaseRequest(ID),
 	FOREIGN KEY (ProductID)	REFERENCES Product(ID)
 );
