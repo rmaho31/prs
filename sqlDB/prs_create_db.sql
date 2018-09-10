@@ -4,7 +4,7 @@ CREATE DATABASE prs;
 USE prs;
 
 CREATE TABLE user (
-	ID						INT 						 PRIMARY KEY  AUTO_INCREMENT,				
+	ID						INT 						 PRIMARY KEY  AUTO_INCREMENT,
 	UserName 				VARCHAR(20)					 NOT NULL	  UNIQUE,
 	Password				VARCHAR(10)					 NOT NULL,
 	FirstName				VARCHAR(20)					 NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE user (
 );
 
 CREATE TABLE vendor (
-	ID						INT							 PRIMARY KEY  AUTO_INCREMENT,					
+	ID						INT							 PRIMARY KEY  AUTO_INCREMENT,
 	Code					VARCHAR(10)					 NOT NULL	  UNIQUE,
 	Name					VARCHAR(255)				 NOT NULL,
 	Address					VARCHAR(255)				 NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE vendor (
 );
 
 CREATE TABLE product (
-	ID						INT 						 PRIMARY KEY  AUTO_INCREMENT,					
+	ID						INT 						 PRIMARY KEY  AUTO_INCREMENT,
 	VendorID				INT							 NOT NULL,
 	PartNumber				VARCHAR(50)					 NOT NULL,
 	Name					VARCHAR(150)				 NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE product (
 );
 
 CREATE TABLE purchaseRequest (
-	ID						INT							 PRIMARY KEY  AUTO_INCREMENT,					 
+	ID						INT							 PRIMARY KEY  AUTO_INCREMENT,
 	UserID					INT							 NOT NULL,
 	Description				VARCHAR(100)				 NOT NULL,
 	Justification			VARCHAR(255)				 NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE purchaseRequest (
 	Total					DECIMAL(10,2)				 NOT NULL,
 	SubmittedDate			DATETIME 					 ,
 	ReasonForRejection		VARCHAR(100)				 NOT NULL,
-	IsActive				TinyInt(1)					 NOT NULL DEFAULT 1,	
+	IsActive				TinyInt(1)					 NOT NULL DEFAULT 1,
 	DateCreated				DATETIME					 NOT NULL DEFAULT current_timestamp,
 	DateUpdated				DATETIME					 NOT NULL DEFAULT current_timestamp on update current_timestamp,
 	UpdatedByUser			INT 						 NOT NULL DEFAULT 1,
@@ -71,7 +71,7 @@ CREATE TABLE purchaseRequest (
 );
 
 CREATE TABLE purchaseRequestLineItem (
-	ID						INT							PRIMARY KEY  AUTO_INCREMENT,					
+	ID						INT							PRIMARY KEY  AUTO_INCREMENT,
 	PurchaseRequestID		INT							NOT NULL,
 	ProductID				INT							NOT NULL,
 	Quantity				INT							NOT NULL,
